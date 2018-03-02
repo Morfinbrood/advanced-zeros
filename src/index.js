@@ -7,6 +7,7 @@ module.exports = function getZerosCount(number, base) {
     let index = 0;
     let tempNum = num;
     let result = [];
+    let maxDivider = 0;
     while (i <= num) {
       if (tempNum % i === 0) {
         result.push({ divider: i, summ: 0 });
@@ -31,8 +32,11 @@ module.exports = function getZerosCount(number, base) {
   for (let i = 1; i <= number; i++) {
     let temp_i = i;
     while (temp_i % maxDivider === 0) {
-      temp_i = Math.abs(temp_i / maxDivider);
+      temp_i = temp_i / maxDivider;
       zeroes++
+    }
+    if (i % maxDivider === 0) {
+      i = i + maxDivider - 1;
     }
   }
 
