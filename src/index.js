@@ -1,7 +1,5 @@
 module.exports = function getZerosCount(number, base) {
 
-  //console.log("number= " + number);
-
   function getSimpleMultipliers(num) {
     let i = 2;
     let index = 0;
@@ -10,12 +8,19 @@ module.exports = function getZerosCount(number, base) {
     let maxDivider = 0;
     while (i <= num) {
       if (tempNum % i === 0) {
-        result.push({ divider: i, summ: 0 });
+        result.push({ divider: i, quantity: 1 });
         index++;
         tempNum = tempNum / i;
       }
       else {
         i++;
+      }
+    }
+    for (let i = 1; i < result.length; i++) {
+      if (result[i].divider === result[i - 1].divider) {
+        result[i - 1].quantity++;
+        result.splice(i, 1);
+        i = i - 1;
       }
     }
     //console.log(result);
@@ -25,7 +30,7 @@ module.exports = function getZerosCount(number, base) {
   let arr_multi = getSimpleMultipliers(base);
 
   let maxDivider = arr_multi[arr_multi.length - 1].divider;
-  //console.log("maxDivider= " + maxDivider);
+  let maxDividerQuant = arr_multi[arr_multi.length - 1].quantity;
 
   let zeroes = 0;
 
@@ -40,14 +45,7 @@ module.exports = function getZerosCount(number, base) {
     }
   }
 
-  let count_of_repeating_max_divider = 0;
-  arr_multi.forEach(function (element) {
-    if (maxDivider === element.divider) {
-      count_of_repeating_max_divider++;
-    };
-  })
-
-  zeroes = Math.floor(zeroes / count_of_repeating_max_divider);
+  zeroes = Math.floor(zeroes / maxDividerQuant);
 
   return zeroes;
 }
